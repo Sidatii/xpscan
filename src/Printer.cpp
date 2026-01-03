@@ -9,8 +9,11 @@
 using namespace std;
 
 int Printer::getTerminalWidth() {
+  // Instantiate a window size struct
   struct winsize w;
+  // Setting some magic numbers for file descriptor and request. and passing the window size struct
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+  // Returning the width columns
   return w.ws_col;
 }
 

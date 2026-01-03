@@ -23,7 +23,9 @@ void Scanner::scanPort(int port) {
   addr.sin_port = htons(port);
   inet_pton(AF_INET, target_ip.c_str(), &addr.sin_addr);
 
-  connect(sock, (struct sockaddr*)&addr, sizeof(addr));
+  // In a non blocking context, the return of connect() is neglicted
+  // In this case stored to a variable to avoid unexpected behavior
+  int connect_output = connect(sock, (struct sockaddr*)&addr, sizeof(addr));
 
   // Use select to wait exactly 500ms
   fd_set fdset;
