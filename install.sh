@@ -29,8 +29,8 @@ echo "$EXPORT_PATH" >"$CONFIG_DIR/path.conf"
 TEMP_DIR=$(mktemp -d)
 echo -e "${BLUE}[*] Cloning repository to $TEMP_DIR...${NC}"
 
-git clone https://github.com/sidatii/xpscan.git "$TEMP_DIR"
-cd "$TEMP_DIR"
+git clone https://github.com/sidatii/xpscan.git $TEMP_DIR
+cd $TEMP_DIR
 
 echo -e "${BLUE}[*] Compiling...${NC}"
 mkdir build && cd build

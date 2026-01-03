@@ -1,6 +1,5 @@
 # Compiled Binary
 xpscan
-pro-scanner
 
 # Build Directories
 build/
@@ -9,7 +8,6 @@ obj/
 
 # Local Scan Results
 *.json
-*.txt
 
 # IDE Specific
 .vscode/
