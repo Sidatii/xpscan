@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="xpscan logo" width="400">
+  <img src="assets/xpscan_logo.png" alt="xpscan logo" width="400">
 </p>
 
 # XP-SCAN
@@ -10,12 +10,12 @@ A high-performance, multithreaded TCP port scanner for Linux.
 ## Demo
 
 <p align="center">
-  <img src="assets/pic1.png" alt="xpscan logo" width="400">
+  <img src="assets/pic1.png" alt="xpscan screen 1">
 </p>
 ---------------------
 
 <p align="center">
-  <img src="assets/pic2.png" alt="xpscan logo" width="400">
+  <img src="assets/pic2.png" alt="xpscan screen 2">
 </p>
 
 ## Authors
