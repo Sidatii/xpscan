@@ -8,6 +8,14 @@ NC='\033[0m'
 
 echo -e "${BLUE}== xpscan (Pro-Scanner) Setup ==${NC}"
 
+# Checking if needed dependencies are installed
+for CMD in git cmake make; do
+  if ! command -v $CMD &>/dev/null; then
+    echo -e "${RED}[x] ${CMD} not found, make sure it is installed before trying to install xpscan ${NC}"
+  fi
+done
+exit 1
+
 # 1. Detect Existing Installation
 CONFIG_DIR="$HOME/.config/.xpscan"
 CONF_FILE="$CONFIG_DIR/path.conf"
