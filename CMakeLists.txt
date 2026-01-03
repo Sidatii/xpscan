@@ -3,14 +3,17 @@ project(XP-SCAN)
 set(CMAKE_CXX_STANDARD 17)
 
 set(SOURCES src/Scanner.cpp src/Exporter.cpp src/Printer.cpp)
-set(TEST_SOURCES tests/scanner_test.cpp)
+set(TEST_SOURCES tests/ExporterTest.cpp tests/ScannerTest.cpp tests/PrinterTest.cpp)
 
 # Fetch Criterion (Testing library)
 include(FetchContent)
 FetchContent_Declare(criterion
     GIT_REPOSITORY https://github.com/Snaipe/Criterion.git
-    GIT_TAG v2.4.1
+    GIT_TAG v2.4.2
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE
 )
+set(FETCHCONTENT_QUIET FALSE)
 FetchContent_MakeAvailable(criterion)
 
 # Look for threads
