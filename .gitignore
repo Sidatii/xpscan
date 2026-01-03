@@ -1,0 +1,19 @@
+# Compiled Binary
+xpscan
+pro-scanner
+
+# Build Directories
+build/
+bin/
+obj/
+
+# Local Scan Results
+*.json
+*.txt
+
+# IDE Specific
+.vscode/
+.idea/
+
+# System Configs (Internal to the user)
+.config/
