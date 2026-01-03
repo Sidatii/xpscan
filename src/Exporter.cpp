@@ -1,7 +1,6 @@
 #include "../include/Exporter.h"
 
 #include <ctime>
-#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -29,7 +28,7 @@ void Exporter::saveToJson(const std::string& ip, const std::vector<PortResult>& 
     return;
   }
   std::string dir = get_export_path();
-  std::string full_path = dir + "/" + ip + "_" + get_timestamp() + ".json";
+  std::string full_path = dir + ip + "_" + get_timestamp() + ".json";
 
   std::ofstream file(full_path);
   file << "[\n";

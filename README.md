@@ -1,36 +1,102 @@
-# Pro-Scanner CLI
+<p align="center">
+  <img src="assets/logo.png" alt="xpscan logo" width="400">
+</p>
+
+# XP-SCAN
+
 A high-performance, multithreaded TCP port scanner for Linux.
 
+
+## Demo
+
+<p align="center">
+  <img src="assets/pic1.png" alt="xpscan logo" width="400">
+</p>
+---------------------
+
+<p align="center">
+  <img src="assets/pic2.png" alt="xpscan logo" width="400">
+</p>
+
+## Authors
+
+- [@sidatii](https://www.github.com/sidatii)
+
+
 ## Features
-- **Asynchronous Scanning:** Uses non-blocking sockets for speed.
-- **Service Detection:** Identifies services via `/etc/services`.
-- **JSON Export:** Automatically saves results to `[IP].json`.
-- **Real-time Progress:** Live CLI feedback with timers.
 
-## Project Structure
-
-```Plaintext
-ProScanner/
-├── CMakeLists.txt          # Build instructions
-├── README.md               # Project documentation
-├── include/                # Header files (.h)
-│   ├── Scanner.h           # Network logic definitions
-│   ├── Exporter.h          # Format saving definitions
-│   ├── Printer.h           # CLI easthitics
-│   └── Common.h            # Shared structs (e.g., PortResult)
-└── src/                    # Source files (.cpp)
-    ├── main.cpp            # CLI loop and user input
-    ├── Scanner.cpp         # Socket logic (non-blocking)
-    ├── Printer.cpp         # CLI easthitics
-    └── Exporter.cpp        # File I/O logic
-```
+- Open ports and service names
+- Custom port range scanning
+- Full port range scanning
+- Json and text export format
 
 
 ## Installation
 
+Install xpscan using curl
+
 ```bash
-mkdir build && cd build
-cmake ..
-make
-./pro-scanner
+curl -sSL https://github.com/Sidatii/xpscan/blob/master/install.sh | bash
 ```
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/Sidatii/xpscan
+```
+
+Go to the project directory
+
+```bash
+  cd xpscan
+```
+
+Make build directory
+
+```bash
+  mkdir build && cd build
+```
+
+Compile the project
+
+```bash
+  cmake ..
+```
+
+```bash
+  make
+```
+Run the binary
+
+```bash
+  ./xpscan
+```
+## Usage/Examples
+
+```bash
+xpscan <IP> [OPTIONS]
+```
+
+```bash
+# No args -> interactive session
+xpscan 8.8.8.8 
+
+# Full range scan
+xpscan 8.8.8.8 --full
+
+# Export result to json/txt
+xpscan 8.8.8.8 --full --json
+xpscan 8.8.8.8 --full --txt
+
+```
+
+
+## Tech Stack
+
+**Dev:** C++
+
+**Build:** cMake, Make
+
