@@ -7,7 +7,12 @@
 
 class Exporter {
  public:
-  static void saveToJson(const std::string& ip, const std::vector<PortResult>& results);
-  static void saveToText(const std::string& ip, const std::vector<PortResult>& results);
+  Exporter(const std::string& config_path = "");
+  void saveToJson(const std::string& ip, const std::vector<PortResult>& results);
+  void saveToText(const std::string& ip, const std::vector<PortResult>& results);
+  std::string getExportPath();
+
+ private:
+  std::string config_path_;
 };
 #endif

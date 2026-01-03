@@ -54,10 +54,6 @@ int main(int argc, char* argv[]) {
     std::cout << "\033[36mEnter end port:\033[0m ";
     std::cin >> input.end_port;
   }
-  // cout << "\nEnter the path to save the result (default: " << SAVE_PATH << ")" << ", click enter to use default.\nPath: ";
-  // cin >> input.path_choice;
-  // if (input.path_choice == "\n") {
-  // }
 
   Scanner scanner(input.ip, THREAD_NUM);
   // Start time recording
@@ -68,8 +64,9 @@ int main(int argc, char* argv[]) {
   std::chrono::duration<double> diff = end - start;
   std::cout << "\n\033[36m[!] Scan finished in " << diff.count() << "s\033[0m" << std::endl;
 
-  if (exportJson) Exporter::saveToJson(input.ip, scanner.getResults());
-  if (exportTxt) Exporter::saveToText(input.ip, scanner.getResults());
+  Exporter exporter;  // Uses default config path because i extracted the config file path as a parameter
+  if (exportJson) exporter.saveToJson(input.ip, scanner.getResults());
+  if (exportTxt) exporter.saveToText(input.ip, scanner.getResults());
 
   if (!exportJson && !exportTxt) {
     std::cout << "\033[33m[!] No export flags set. Use --json or --txt to save results.\033[0m" << std::endl;
