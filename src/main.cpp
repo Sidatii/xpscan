@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <chrono>
+#include <cstring>
 #include <iostream>
+#include <regex>
 #include <string>
 
 #include "../include/Exporter.h"
@@ -21,9 +23,15 @@ void print_usage() {
 }
 
 int main(int argc, char* argv[]) {
-  // check if at least two args are passed
-  if (argc < 2) {
+  // check if at least one arg is passed
+  if (argc < 2 || std::strcmp(argv[1], "--help") == 0) {
     print_usage();
+    return 1;
+  }
+  // Validate the ip
+  std::regex ip_regex(R"(^(\d{1,3}\.){3}\d{1,3}$)");
+  if (!std::regex_match(argv[1], ip_regex)) {
+    std::cerr << "\033[31m[x] Invalid IP address format.\033[0m\n";
     return 1;
   }
   struct UserInput input{};
