@@ -8,8 +8,13 @@
 #include <iostream>
 #include <string>
 
-std::string get_export_path() {
-  std::string config_file = std::string(getenv("HOME")) + "/.config/.xpscan/path.conf";
+Exporter::Exporter(const std::string& config_path) : config_path_(config_path) {}
+
+std::string Exporter::getExportPath() {
+  std::string config_file = config_path_.empty()
+    ? std::string(getenv("HOME")) + "/.config/.xpscan/path.conf"
+    : config_path_;
+
   std::ifstream file(config_file);
   if (!file.is_open()) {
     std::cout << "[x] Error opening config file...";
@@ -39,10 +44,9 @@ std::string get_current_time_str() {
 
 void Exporter::saveToJson(const std::string& ip, const std::vector<PortResult>& results) {
   if (results.empty()) {
-    std::cout << "\033[34m[x] No results found, skipping export." << "\033[0m" << std::endl;
     return;
   }
-  std::string dir = get_export_path();  // Uses the wordexp logic from earlier
+  std::string dir = getExportPath();
   std::string full_path = dir + ip + "_" + get_timestamp() + ".json";
 
   std::ofstream file(full_path);
@@ -72,7 +76,7 @@ void Exporter::saveToText(const std::string& ip, const std::vector<PortResult>& 
     std::cout << "\033[34m[x] No results found, skipping export." << "\033[0m" << std::endl;
     return;
   }
-  std::string dir = get_export_path();
+  std::string dir = getExportPath();
   std::string full_path = dir + ip + "_" + get_timestamp() + ".txt";
 
   std::ofstream file(full_path);
