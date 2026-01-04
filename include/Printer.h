@@ -6,17 +6,19 @@
 
 using namespace std;
 
-struct UserInput {
-  string ip;
-  int start_port;
-  int end_port;
+struct UserInput
+{
+    string ip;
+    int    start_port;
+    int    end_port;
 };
 
-class Printer {
- public:
-  static int getTerminalWidth();
-  static void printCentered(const vector<string>& art, int terminalWidth);
-  static void printHeader();
-  static void clearScreen();
+class Printer
+{
+  public:
+    static int  getTerminalWidth();
+    static void printCentered(const vector<string>& art, int terminalWidth);
+    static void printHeader();
+    static void clearScreen();
 };
-#endif  // !PRINTER_H
+#endif // !PRINTER_H

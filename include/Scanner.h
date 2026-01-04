@@ -9,20 +9,21 @@
 
 using namespace std;
 
-class Scanner {
- public:
-  // constructor
-  Scanner(std::string ip, int threads);
-  void scanRange(int start, int end);
-  std::vector<PortResult> getResults();
+class Scanner
+{
+  public:
+    // constructor
+    Scanner(string ip, int threads);
+    void                    scanRange(int start, int end);
+    std::vector<PortResult> getResults();
 
- private:
-  void scanPort(int port);
+  private:
+    void scanPort(int port);
 
-  std::string target_ip;
-  int max_threads;
-  std::vector<PortResult> results;
-  std::mutex result_mutex;
+    string             target_ip;
+    int                max_threads;
+    vector<PortResult> results;
+    mutex              result_mutex;
 };
 
 #endif
