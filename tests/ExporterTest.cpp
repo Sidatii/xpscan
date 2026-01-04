@@ -6,12 +6,14 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <random>
+#include <chrono>
 
 // Helper functions signatures
-std::string createTestDirectory();
+std::string createTestDirectory(const std::string &test_name);
 std::string createTestConfig(const std::string &export_path,
                              const std::string &suffix = "");
-void cleanupTestFiles(const std::string &pattern);
+void cleanupTestFiles(const std::string &directory);
 
 Test(Exporter, empty_results_should_skip_json_export) {
   Exporter exporter;
@@ -39,7 +41,7 @@ Test(Exporter, empty_results_should_skip_text_export) {
 }
 
 Test(Exporter, should_export_valid_json_with_results) {
-  std::string test_dir = createTestDirectory();
+  std::string test_dir = createTestDirectory("json_test");
   std::string config_path = createTestConfig(test_dir, "_json");
 
   std::vector<PortResult> results = {{80, "http"}, {443, "https"}, {22, "ssh"}};
@@ -79,13 +81,12 @@ Test(Exporter, should_export_valid_json_with_results) {
   cr_assert(json_content.find("\"service\": \"http\"") != std::string::npos,
             "JSON should contain http service");
 
-  cleanupTestFiles(test_dir);
   std::filesystem::remove(config_path);
+  std::filesystem::remove_all(test_dir);
 }
 
 Test(Exporter, should_export_valid_text_with_results) {
-  std::string test_dir = createTestDirectory();
-  cleanupTestFiles(test_dir);
+  std::string test_dir = createTestDirectory("txt_test");
   std::string config_path = createTestConfig(test_dir, "_txt");
 
   std::vector<PortResult> results = {{80, "http"}, {443, "https"}};
@@ -126,12 +127,12 @@ Test(Exporter, should_export_valid_text_with_results) {
   cr_assert(txt_content.find("Service: http") != std::string::npos,
             "TXT should contain http service");
 
-  cleanupTestFiles(test_dir);
   std::filesystem::remove(config_path);
+  std::filesystem::remove_all(test_dir);
 }
 
 Test(Exporter, getExportPath_should_read_from_config) {
-  std::string test_dir = "/tmp/custom_export_path/";
+  std::string test_dir = createTestDirectory("getpath_test");
   std::string config_path = createTestConfig(test_dir, "_getpath");
 
   Exporter exporter(config_path);
@@ -143,26 +144,50 @@ Test(Exporter, getExportPath_should_read_from_config) {
             result.c_str(), test_dir.c_str());
 
   std::filesystem::remove(config_path);
+  std::filesystem::remove_all(test_dir);
 }
 
-std::string createTestDirectory() {
-  std::string test_dir = "/tmp/xpscan_test/";
+std::string createTestDirectory(const std::string &test_name) {
+  // Create unique directory using timestamp and random number to avoid collisions
+  auto now = std::chrono::high_resolution_clock::now();
+  auto timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
+
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> dis(1000, 9999);
+  int random_id = dis(gen);
+
+  std::string test_dir = "/tmp/xpscan_test_" + test_name + "_" +
+                         std::to_string(timestamp) + "_" +
+                         std::to_string(random_id) + "/";
   std::filesystem::create_directories(test_dir);
   return test_dir;
 }
 
 std::string createTestConfig(const std::string &export_path,
                              const std::string &suffix) {
-  std::string config_path = "/tmp/test_config" + suffix + ".conf";
+  // Create unique config file using timestamp and random number
+  auto now = std::chrono::high_resolution_clock::now();
+  auto timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
+
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> dis(1000, 9999);
+  int random_id = dis(gen);
+
+  std::string config_path = "/tmp/test_config" + suffix + "_" +
+                           std::to_string(timestamp) + "_" +
+                           std::to_string(random_id) + ".conf";
   std::ofstream config_file(config_path);
   config_file << export_path;
   config_file.close();
   return config_path;
 }
 
-void cleanupTestFiles(const std::string &pattern) {
-  for (const auto &entry :
-       std::filesystem::directory_iterator("/tmp/xpscan_test/")) {
-    std::filesystem::remove(entry.path());
+void cleanupTestFiles(const std::string &directory) {
+  if (std::filesystem::exists(directory)) {
+    for (const auto &entry : std::filesystem::directory_iterator(directory)) {
+      std::filesystem::remove(entry.path());
+    }
   }
 }

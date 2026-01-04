@@ -5,16 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCES src/Scanner.cpp src/Exporter.cpp src/Printer.cpp)
 set(TEST_SOURCES tests/ExporterTest.cpp tests/ScannerTest.cpp tests/PrinterTest.cpp)
 
-# Fetch Criterion (Testing library)
-include(FetchContent)
-FetchContent_Declare(criterion
-    GIT_REPOSITORY https://github.com/Snaipe/Criterion.git
-    GIT_TAG v2.4.2
-    GIT_SHALLOW TRUE
-    GIT_PROGRESS TRUE
-)
-set(FETCHCONTENT_QUIET FALSE)
-FetchContent_MakeAvailable(criterion)
+# Find Criterion (Testing library)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(CRITERION REQUIRED criterion)
 
 # Look for threads
 find_package(Threads REQUIRED)
@@ -28,7 +21,8 @@ target_link_libraries(xpscan PRIVATE Threads::Threads)
 
 # Tests runner
 add_executable(xpscan_tests EXCLUDE_FROM_ALL ${TEST_SOURCES} ${SOURCES})
-target_link_libraries(xpscan_tests PRIVATE Threads::Threads criterion)
+target_include_directories(xpscan_tests PRIVATE ${CRITERION_INCLUDE_DIRS})
+target_link_libraries(xpscan_tests PRIVATE Threads::Threads ${CRITERION_LIBRARIES})
 
 # Test target
 add_custom_target(test 
