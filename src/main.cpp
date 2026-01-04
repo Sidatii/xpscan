@@ -5,16 +5,10 @@
 #include <regex>
 #include <string>
 
+#include "../include/Common.h"
 #include "../include/Exporter.h"
 #include "../include/Printer.h"
 #include "../include/Scanner.h"
-
-#define START_PORT 1
-#define END_PORT 65535
-#define RED "\033[31m"
-#define BLUE "\033[36m"
-#define PINK "\033[33m"
-#define NC "\033[0m"
 
 using namespace std;
 
@@ -22,8 +16,7 @@ using namespace std;
 
 void print_usage() {
   std::cout << PINK << "Usage: xpscan <IP> [options]\n"
-            << NC
-            << BLUE << "Options:\n"
+            << NC << BLUE << "Options:\n"
             << "  --help    Print this message\n"
             << "  --json    Export results to [IP].json\n"
             << "  --txt     Export results to [IP].txt\n"
@@ -31,7 +24,7 @@ void print_usage() {
             << NC;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   // check if at least one arg is passed
   if (argc < 2 || std::strcmp(argv[1], "--help") == 0) {
     print_usage();
@@ -87,14 +80,17 @@ int main(int argc, char* argv[]) {
   // Calculate elapsed time
   std::chrono::duration<double> diff = end - start;
   std::cout << "\n"
-            << BLUE << "[!] Scan finished in " << diff.count() << "s" << NC << std::endl;
+            << BLUE << "[!] Scan finished in " << diff.count() << "s" << NC
+            << std::endl;
 
   Exporter exporter;  // Uses default config path because i extracted the config file path as a parameter
   if (exportJson) exporter.saveToJson(input.ip, scanner.getResults());
   if (exportTxt) exporter.saveToText(input.ip, scanner.getResults());
 
   if (!exportJson && !exportTxt) {
-    std::cout << PINK << "[!] No export flags set. Use --json or --txt to save results." << NC << std::endl;
+    std::cout << PINK
+              << "[!] No export flags set. Use --json or --txt to save results."
+              << NC << std::endl;
   }
 
   return 0;

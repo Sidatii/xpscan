@@ -8,4 +8,11 @@ struct PortResult {
   std::string service;
 };
 
-#endif  // !COMMON_H
+#define START_PORT 1
+#define END_PORT 65535
+#define RED "\033[31m"
+#define BLUE "\033[36m"
+#define PINK "\033[33m"
+#define NC "\033[0m"
+
+#endif // !COMMON_H
